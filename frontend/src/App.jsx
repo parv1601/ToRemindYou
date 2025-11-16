@@ -8,7 +8,7 @@ import {
 
 // --- CONFIGURATION & STYLING ---
 // IMPORTANT: Adjust this if your backend is running on a different port/address
-const API_URL = 'https://toremindyou.onrender.com'; 
+const API_URL = 'https://toremindyou.onrender.com/api'; 
 
 
 
