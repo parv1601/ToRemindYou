@@ -8,7 +8,10 @@ import {
 
 // --- CONFIGURATION & STYLING ---
 // IMPORTANT: Adjust this if your backend is running on a different port/address
-const API_URL = 'http://localhost:5000/api'; 
+const API_URL = 'https://toremindyou.onrender.com'; 
+
+
+
 // Anniversay Milestone Date
 const ANNIVERSARY_DAY = 17;
 const ANNIVERSARY_MONTH = 8; // August (1-indexed for display)
