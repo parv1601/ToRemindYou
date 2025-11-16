@@ -1,0 +1,70 @@
+/* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+  --primary-color: #6a0dad; /* Deep Purple */
+  --secondary-color: #ffb7c5; /* Soft Pink */
+  --background-color: #f4f4f9; /* Light Gray/Blue */
+  --text-color: #333;
+  --light-text: #666;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  max-width: 600px; /* Mobile web app focus */
+  padding: 20px 0;
+  margin-top: 80px; /* Space for the fixed header */
+}
+
+/* --- Header Styling --- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 5%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.header h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.nav-link {
+  color: var(--light-text);
+  text-decoration: none;
+  margin-left: 20px;
+  transition: color 0.2s ease;
+  font-weight: 400;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}

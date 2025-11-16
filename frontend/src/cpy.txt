@@ -1,0 +1,32 @@
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Dashboard from './pages/Dashboard';
+import TasksPage from './pages/TasksPage';
+import WantsPortal from './pages/WantsPortal';
+import './App.css'; // We'll define the minimalist aesthetic here
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        {/* The Header will contain the main greeting and navigation */}
+        <Header /> 
+        
+        <main className="container">
+          <Routes>
+            {/* Main view with countdown and supportive message */}
+            <Route path="/" element={<Dashboard />} /> 
+            {/* Page for Brinda to manage (add/view/delete) tasks */}
+            <Route path="/tasks" element={<TasksPage />} /> 
+            {/* Page for Brinda to submit a wish */}
+            <Route path="/wishes" element={<WantsPortal />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
