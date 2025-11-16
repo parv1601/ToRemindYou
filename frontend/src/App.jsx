@@ -585,7 +585,7 @@ const WantsPortal = () => {
         try {
             await axios.post(API_URL + '/wishes', { message: wishMessage });
 
-            setStatus('Wish received! The Admin has been instantly notified. 😉');
+            setStatus('Wish received!');
             setIsSuccess(true);
             setWishMessage('');
         } catch (error) {
@@ -618,7 +618,7 @@ const WantsPortal = () => {
                     />
 
                     <AestheticButton type="submit" icon={Zap} disabled={isLoading || !wishMessage.trim()}>
-                        {isLoading ? 'Sending Magic...' : 'Manifest My Wish!'}
+                        {isLoading ? 'Sending...' : 'Send Wish!'}
                     </AestheticButton>
                 </form>
 
