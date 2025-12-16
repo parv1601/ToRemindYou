@@ -6,11 +6,14 @@ import {
     Sparkles, RefreshCw, Layers, Moon, Zap, ArrowRight, CornerDownRight, Mail
 } from 'lucide-react';
 
+
+
 // --- CONFIGURATION & STYLING ---
 // IMPORTANT: Adjust this if your backend is running on a different port/address
-const API_URL = 'https://toremindyou.onrender.com/api'; 
+//const API_URL = 'https://toremindyou.onrender.com/api'; 
+const API_URL = process.env.REACT_APP_API_URL; 
 
-
+console.log(API_URL)
 
 // Anniversay Milestone Date
 const ANNIVERSARY_DAY = 17;

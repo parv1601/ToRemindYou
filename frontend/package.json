@@ -2,6 +2,7 @@
   "name": "toremindyou-frontend",
   "version": "1.0.0",
   "private": true,
+  
   "dependencies": {
     "axios": "^1.4.0",
     "lucide-react": "^0.553.0",

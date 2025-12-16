@@ -1,18 +1,16 @@
+// models/User.js
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        default: 'Brinda'
-    },
-    // NEW FIELD: Stores Brinda's email address
-    email: { 
-        type: String,
-        required: false, // Optional until she logs in
-        unique: true,
-        sparse: true // Allows null values
-    }
+  name: {
+    type: String,
+    default: 'Brinda',
+    required: true
+  },
+  email: {
+    type: String,
+    default: 'nbrinda0007@gmail.com'
+  }
 });
 
 export default mongoose.model('User', UserSchema);
