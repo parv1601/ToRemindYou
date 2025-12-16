@@ -181,69 +181,6 @@ const Header = () => {
 
 // --- Email Setup Modal Component ---
 
-const EmailSetupModal = ({ onSetupComplete }) => {
-    const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        setLoading(true);
-
-        try {
-            // Simple email format validation
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                setError("Please enter a valid email address.");
-                setLoading(false);
-                return;
-            }
-
-            // Call backend to update user email
-            await axios.put(`${API_URL}/users/email`, { email });
-            
-            // Success: Update localStorage and complete setup
-            localStorage.setItem('userEmailSet', 'true');
-            onSetupComplete();
-        } catch (err) {
-            console.error('Email setup failed:', err);
-            setError(err.response?.data?.error || 'Failed to save email. Is the backend running?');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4">
-            <Card style={{ boxShadow: `12px 12px 0px 0px ${PRIMARY_TEXT}` }} className="w-full max-w-xs text-center p-8">
-                <Mail size={32} className="mx-auto mb-4" style={{ color: PRIMARY_BLUE }}/>
-                <h3 className="text-xl font-bold mb-2 font-serif" style={{ color: PRIMARY_TEXT }}>Welcome!</h3>
-                <p className="text-sm text-stone-700 mb-6">
-                    Enter the email Brinda uses to receive personalized task reminders.
-                </p>
-
-                <form onSubmit={handleSubmit} className='space-y-4'>
-                    <input
-                        type="email"
-                        placeholder="Your Email Address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-3 border-2 rounded-lg transition duration-150 text-base"
-                        style={{ borderColor: PRIMARY_TEXT, color: PRIMARY_TEXT, boxShadow: `2px 2px 0px 0px ${PRIMARY_TEXT}` }}
-                        required
-                        disabled={loading}
-                    />
-                    
-                    {error && <p className="text-sm text-red-600 font-semibold">{error}</p>}
-
-                    <AestheticButton type="submit" icon={ArrowRight} disabled={loading}>
-                        {loading ? 'Saving...' : 'Set Up Reminders'}
-                    </AestheticButton>
-                </form>
-            </Card>
-        </div>
-    );
-};
 
 
 // --- PAGE COMPONENTS ---
