@@ -1,23 +1,24 @@
 // utils/emailService.js
-import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import sgMail from '@sendgrid/mail';
 import User from '../models/User.js';
 
 dotenv.config();
 
-const EMAIL_USER = process.env.GMAIL_USER;
-const EMAIL_PASS = process.env.GMAIL_PASS;
+// -------- ENV VARS --------
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const FROM_EMAIL = process.env.FROM_EMAIL; // verified sender in SendGrid
 const USER_NAME = 'Brinda';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS
-  }
-});
+if (!SENDGRID_API_KEY || !FROM_EMAIL || !ADMIN_EMAIL) {
+  console.error('Missing SendGrid environment variables');
+}
 
+// Init SendGrid
+sgMail.setApiKey(SENDGRID_API_KEY);
+
+// -------- SUPPORTIVE PHRASES --------
 const supportivePhrases = [
   "Cute u r.",
   "Overactions u shouldn't do.",
@@ -27,56 +28,83 @@ const supportivePhrases = [
   "That waist!!!!!."
 ];
 
-/* ---------------- TASK REMINDER → BRINDA ---------------- */
+/* =========================================================
+   TASK REMINDER → BRINDA
+========================================================= */
 export async function sendTaskReminderEmail(task) {
-  const brinda = await User.findOne({ name: 'Brinda' });
-  if (!brinda?.email) return;
+  try {
+    const brinda = await User.findOne({ name: 'Brinda' });
+    if (!brinda?.email) {
+      console.warn('Brinda email not found');
+      return;
+    }
 
-  await transporter.sendMail({
-    from: `"ToRemindYou" <${EMAIL_USER}>`,
-    to: brinda.email,
-    subject: `Task Reminder: ${task.name}`,
-    html: `
-      <h2>Hey ${USER_NAME} 💕</h2>
-      <p>Time to do:</p>
-      <h3>${task.name}</h3>
-      <p>Scheduled every ${task.recurrenceDays} day(s).</p>
-    `
-  });
+    await sgMail.send({
+      to: brinda.email,
+      from: FROM_EMAIL,
+      subject: `Task Reminder: ${task.name}`,
+      html: `
+        <h2>Yoo hottie </h2>
+        <p>Time to do:</p>
+        <h3>${task.name}</h3>
+        <p>Scheduled every ${task.recurrenceDays} day(s).</p>
+      `
+    });
 
-  console.log(`Task email sent to ${brinda.email}`);
+    console.log(`Task reminder sent to ${brinda.email}`);
+  } catch (error) {
+    console.error('Task reminder email failed:', error.message);
+  }
 }
 
-/* ---------------- SUPPORTIVE EMAIL → BRINDA ---------------- */
+/* =========================================================
+   SUPPORTIVE EMAIL → BRINDA
+========================================================= */
 export async function sendRandomSupportiveEmail() {
-  const brinda = await User.findOne({ name: 'Brinda' });
-  if (!brinda?.email) return;
+  try {
+    const brinda = await User.findOne({ name: 'Brinda' });
+    if (!brinda?.email) {
+      console.warn('Brinda email not found');
+      return;
+    }
 
-  const phrase =
-    supportivePhrases[Math.floor(Math.random() * supportivePhrases.length)];
+    const phrase =
+      supportivePhrases[Math.floor(Math.random() * supportivePhrases.length)];
 
-  await transporter.sendMail({
-    from: `"ToRemindYou" <${EMAIL_USER}>`,
-    to: brinda.email,
-    subject: 'smth smth',
-    html: `<p style="font-size:18px;">${phrase}</p>`
-  });
+    await sgMail.send({
+      to: brinda.email,
+      from: FROM_EMAIL,
+      subject: 'Smth smth',
+      html: `
+        <p style="font-size:18px;">${phrase}</p>
+        <p style="color:#888;">Just a small reminder!!!!</p>
+      `
+    });
 
-  console.log(`💌 Supportive email sent to ${brinda.email}`);
+    console.log(`Supportive email sent to ${brinda.email}`);
+  } catch (error) {
+    console.error('Supportive email failed:', error.message);
+  }
 }
 
-/* ---------------- WISH EMAIL → YOU (ADMIN) ---------------- */
+/* =========================================================
+   WISH EMAIL → ADMIN (YOU)
+========================================================= */
 export async function sendWishEmail(wish) {
-  await transporter.sendMail({
-    from: `"ToRemindYou" <${EMAIL_USER}>`,
-    to: ADMIN_EMAIL,
-    subject: `New Wish from ${USER_NAME}`,
-    html: `
-      <h2>New Wish Submitted</h2>
-      <p><strong>${USER_NAME}</strong> wrote:</p>
-      <blockquote>${wish.message}</blockquote>
-    `
-  });
+  try {
+    await sgMail.send({
+      to: ADMIN_EMAIL,
+      from: FROM_EMAIL,
+      subject: `New Wish from ${USER_NAME}`,
+      html: `
+        <h2>New Wish Submitted</h2>
+        <p><strong>${USER_NAME}</strong> wrote:</p>
+        <blockquote>${wish.message}</blockquote>
+      `
+    });
 
-  console.log(`Wish email sent to admin: ${ADMIN_EMAIL}`);
+    console.log(`Wish email sent to admin: ${ADMIN_EMAIL}`);
+  } catch (error) {
+    console.error('Wish email failed:', error.message);
+  }
 }
